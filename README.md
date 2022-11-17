@@ -1,2 +1,2 @@
 # bimm143
-UCSD Bioinformatics Lab - FA22
+UCSD Bioinformatics Lab - FA22.
