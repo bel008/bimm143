@@ -1,0 +1,108 @@
+---
+title: "Class 5 - ggplot"
+author: "Benjamin Lee"
+format: pdf
+---
+
+# Our first ggplot
+
+To use the ggplot2 package I first need to have it installed on my computer
+
+To install any package we use the 'install.packages()' command.
+
+Now can I use it? NO ! first we need to call 'library(ggplot2)'
+```{r}
+library(ggplot2)
+ggplot()
+```
+```{r}
+mpg
+```
+
+Our first plot of displ vs hwy 
+All ggplot() graphs are made in the same way. 
+
+- data + aes + geoms
+```{r}
+ggplot(mpg) +
+  aes(x=displ, y=hwy) + 
+  geom_point() 
+```
+
+I can add more layers: 
+```{r}
+ggplot(mpg) +
+  aes(x=displ, y=hwy) + 
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE)
+```
+
+# Plot of gene expression data
+
+First read the data from online. 
+
+```{r}
+url <- "https://bioboot.github.io/bimm143_S20/class-material/up_down_expression.txt"
+genes <- read.delim(url)
+head(genes)
+```
+
+>Q. How many genes are in this dataset?
+
+```{r}
+colnames(genes)
+```
+
+What are the colnames?
+```{r}
+colnames(genes)
+```
+
+A first version of this data Condition1 vs Condition2
+```{r}
+ggplot(genes) + 
+  aes(x=Condition1 , y=Condition2) +
+  geom_point()
+```
+
+Let's add some color. To do this we can add another aes() mapping of color the 'State' column in our data.
+```{r}
+ggplot(genes) + 
+  aes(x=Condition1 , y=Condition2, col = State) +
+  geom_point()
+```
+
+> Q. How many genes are upregulated and downregulated?
+
+```{r}
+head(genes)
+```
+
+To get at just the State column
+```{r}
+table(genes$State)
+```
+
+
+```{r}
+p <- ggplot(genes) + 
+    aes(x=Condition1, y=Condition2, col=State) +
+    geom_point() 
+```
+```{r}
+p + scale_colour_manual( values=c("blue","gray","red") )
+```
+
+```{r}
+ggplot(genes) + 
+    aes(x=Condition1, y=Condition2, col=State) +
+    geom_point() + 
+  scale_colour_manual( values=c("blue","gray","red") )
+```
+Then just add to our object 'p'
+```{r}
+p + scale_colour_manual( values=c("blue","gray","red") ) + 
+  labs(title="Gene Expresion Changes Upon Drug Treatment",
+         x="Control (no drug) ",
+         y="Drug Treatment")
+```
